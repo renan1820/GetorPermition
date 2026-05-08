@@ -3,7 +3,10 @@
     "allow": [
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(find *)",
+      "Bash(mkdir -p \"E:\\\\AndroidProjects\\\\GetorPermition\\\\app\\\\src\\\\main\\\\res\\\\raw\")",
+      "Bash(cp \"C:\\\\Users\\\\Renan\\\\OneDrive\\\\Desktop\\\\Figma\\\\Claude\\\\lottie\\\\scan-pulse.json\" \"E:\\\\AndroidProjects\\\\GetorPermition\\\\app\\\\src\\\\main\\\\res\\\\raw\\\\scan_pulse.json\")"
     ]
   }
 }

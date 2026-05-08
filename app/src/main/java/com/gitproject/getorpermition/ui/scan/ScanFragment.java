@@ -1,6 +1,7 @@
 package com.gitproject.getorpermition.ui.scan;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ public class ScanFragment extends Fragment {
     private TextView tvCurrentApp;
     private TextView tvStatus;
     private LottieAnimationView scanAnimation;
+    private long animationStartTimeMs = 0L;
+    private static final long ANIMATION_CYCLE_MS = 2400L; // 72 frames @ 30fps
 
     @Nullable
     @Override
@@ -67,12 +70,25 @@ public class ScanFragment extends Fragment {
                     showScanningUi();
                     break;
                 case DONE:
-                    // Guard: only navigate if we're still on this fragment
                     androidx.navigation.NavController nav =
                             Navigation.findNavController(requireView());
                     if (nav.getCurrentDestination() != null
                             && nav.getCurrentDestination().getId() == R.id.scanFragment) {
-                        nav.navigate(R.id.action_scan_to_result);
+                        long elapsed = animationStartTimeMs > 0
+                                ? SystemClock.elapsedRealtime() - animationStartTimeMs
+                                : ANIMATION_CYCLE_MS;
+                        long remaining = ANIMATION_CYCLE_MS - elapsed;
+                        if (remaining > 0) {
+                            requireView().postDelayed(() -> {
+                                if (isAdded()
+                                        && nav.getCurrentDestination() != null
+                                        && nav.getCurrentDestination().getId() == R.id.scanFragment) {
+                                    nav.navigate(R.id.action_scan_to_result);
+                                }
+                            }, remaining);
+                        } else {
+                            nav.navigate(R.id.action_scan_to_result);
+                        }
                     }
                     break;
                 case ERROR:
@@ -104,6 +120,7 @@ public class ScanFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         tvCurrentApp.setVisibility(View.VISIBLE);
         tvStatus.setText(getString(R.string.scanning_label));
+        animationStartTimeMs = SystemClock.elapsedRealtime();
         scanAnimation.playAnimation();
     }
 
