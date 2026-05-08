@@ -11,21 +11,15 @@
 
 ## Demonstração
 
-<!-- ───────────────────────────────────────────────────────────────────────────
-     SUBSTITUA O BLOCO ABAIXO PELO SEU VÍDEO
-     Opção 1 — GIF animado (recomendado para GitHub):
-         ![Demo](docs/demo.gif)
-     Opção 2 — Thumbnail clicável apontando para YouTube / Drive:
-         [![Assista ao vídeo](docs/thumb.png)](https://youtu.be/SEU_LINK_AQUI)
-     Opção 3 — Vídeo MP4 hospedado no próprio repositório (até ~10 MB):
-         <video src="docs/demo.mp4" controls width="320"></video>
-──────────────────────────────────────────────────────────────────────────── -->
 
-> **📹 Vídeo do app em funcionamento — adicione aqui**
+> **📹 Vídeo do app *
 
-```
-[ Insira o GIF ou o link do vídeo acima desta linha ]
-```
+<video 
+  src="https://github.com/user-attachments/assets/cfdaade9-4fd1-4018-ad18-dfcec538638b" 
+  controls 
+  width="320">
+</video>
+
 
 ---
 
