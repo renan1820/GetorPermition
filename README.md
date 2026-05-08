@@ -12,10 +12,10 @@
 ## Demonstração
 
 
-> **📹 Vídeo do app *
+> **📹 Vídeo do app **
 
 <video 
-  src="https://github.com/user-attachments/assets/cfdaade9-4fd1-4018-ad18-dfcec538638b" 
+  src="https://github.com/user-attachments/assets/52b7f75b-5c64-4527-bac7-0f0c669f8567" 
   controls 
   width="320">
 </video>
