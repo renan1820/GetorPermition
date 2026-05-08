@@ -11,6 +11,8 @@ public class AppInfo implements Serializable {
     private final List<PermissionInfo> permissions;
     private int riskScore; // 0–100, higher = safer
     private boolean scoreSet = false; // true only after setRiskScore() is called
+    private int grantedRiskScore; // score computed using only granted permissions
+    private boolean grantedScoreSet = false;
 
     // Drawable is not Serializable; passed separately when navigating to detail
     private transient Drawable icon;
@@ -27,6 +29,7 @@ public class AppInfo implements Serializable {
     public String getPackageName()          { return packageName; }
     public List<PermissionInfo> getPermissions() { return permissions; }
     public int getRiskScore()               { return riskScore; }
+    public int getGrantedRiskScore()        { return grantedRiskScore; }
     public Drawable getIcon()               { return icon; }
 
     // --- setters ---
@@ -34,6 +37,11 @@ public class AppInfo implements Serializable {
     public void setRiskScore(int riskScore) {
         this.riskScore = riskScore;
         this.scoreSet  = true;
+    }
+
+    public void setGrantedRiskScore(int score) {
+        this.grantedRiskScore = score;
+        this.grantedScoreSet  = true;
     }
 
     public void setIcon(Drawable icon) { this.icon = icon; }
@@ -73,5 +81,24 @@ public class AppInfo implements Serializable {
     public PermissionInfo.RiskLevel getAppCategory() {
         if (scoreSet && riskScore == 0) return PermissionInfo.RiskLevel.EXTREME;
         return getDominantRisk();
+    }
+
+    /** Dominant risk considering only granted permissions. */
+    public PermissionInfo.RiskLevel getGrantedDominantRisk() {
+        boolean hasHigh = false, hasMedium = false;
+        for (PermissionInfo p : permissions) {
+            if (!p.isGranted()) continue;
+            if (p.getRiskLevel() == PermissionInfo.RiskLevel.HIGH)   hasHigh   = true;
+            if (p.getRiskLevel() == PermissionInfo.RiskLevel.MEDIUM) hasMedium = true;
+        }
+        if (hasHigh)   return PermissionInfo.RiskLevel.HIGH;
+        if (hasMedium) return PermissionInfo.RiskLevel.MEDIUM;
+        return PermissionInfo.RiskLevel.LOW;
+    }
+
+    /** Risk category based solely on granted permissions and granted score. */
+    public PermissionInfo.RiskLevel getGrantedAppCategory() {
+        if (grantedScoreSet && grantedRiskScore == 0) return PermissionInfo.RiskLevel.EXTREME;
+        return getGrantedDominantRisk();
     }
 }

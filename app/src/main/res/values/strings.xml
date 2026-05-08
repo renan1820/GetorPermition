@@ -38,4 +38,5 @@
     <string name="language_en">English</string>
     <string name="permission_granted">Concedida</string>
     <string name="permission_denied">Negada</string>
+    <string name="filter_granted_only">Só Concedidas</string>
 </resources>

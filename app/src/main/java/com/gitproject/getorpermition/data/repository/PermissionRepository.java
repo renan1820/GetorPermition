@@ -80,8 +80,9 @@ public class PermissionRepository {
                         appInfo.setIcon(icon);
                     } catch (Exception ignored) { }
 
-                    // Score calculation
+                    // Score calculation (declared) and granted-only score
                     appInfo.setRiskScore(RiskCalculator.calculateAppScore(appInfo));
+                    appInfo.setGrantedRiskScore(RiskCalculator.calculateAppScoreGrantedOnly(appInfo));
                     result.add(appInfo);
                 }
 

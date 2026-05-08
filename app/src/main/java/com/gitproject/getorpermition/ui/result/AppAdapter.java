@@ -35,11 +35,19 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<AppInfo> apps = new ArrayList<>();
     private final Set<Integer> expandedPositions = new HashSet<>();
     private OnDetailClickListener detailListener;
+    private boolean grantedOnlyMode = false;
 
     public void setApps(List<AppInfo> apps) {
         this.apps = apps != null ? apps : new ArrayList<>();
         expandedPositions.clear();
         notifyDataSetChanged();
+    }
+
+    public void setGrantedOnlyMode(boolean enabled) {
+        if (this.grantedOnlyMode != enabled) {
+            this.grantedOnlyMode = enabled;
+            notifyDataSetChanged();
+        }
     }
 
     public void setOnDetailClickListener(OnDetailClickListener listener) {
@@ -48,8 +56,10 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return apps.get(position).getAppCategory() == PermissionInfo.RiskLevel.EXTREME
-                ? TYPE_CRITICAL : TYPE_NORMAL;
+        AppInfo app = apps.get(position);
+        PermissionInfo.RiskLevel cat = grantedOnlyMode
+                ? app.getGrantedAppCategory() : app.getAppCategory();
+        return cat == PermissionInfo.RiskLevel.EXTREME ? TYPE_CRITICAL : TYPE_NORMAL;
     }
 
     @NonNull
@@ -74,12 +84,12 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         if (holder instanceof CriticalViewHolder) {
             CriticalViewHolder vh = (CriticalViewHolder) holder;
-            vh.bind(app, expanded);
+            vh.bind(app, expanded, grantedOnlyMode);
             cardRoot  = vh.cardView;
             btnDetail = vh.btnDetail;
         } else {
             AppViewHolder vh = (AppViewHolder) holder;
-            vh.bind(app, expanded);
+            vh.bind(app, expanded, grantedOnlyMode);
             cardRoot  = vh.cardView;
             btnDetail = vh.btnDetail;
         }
@@ -128,17 +138,21 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             btnDetail            = itemView.findViewById(R.id.btn_detail);
         }
 
-        void bind(AppInfo app, boolean expanded) {
+        void bind(AppInfo app, boolean expanded, boolean grantedOnly) {
             Context ctx = itemView.getContext();
 
+            int score = grantedOnly ? app.getGrantedRiskScore() : app.getRiskScore();
+            PermissionInfo.RiskLevel category = grantedOnly
+                    ? app.getGrantedDominantRisk() : app.getDominantRisk();
+
             tvAppName.setText(app.getAppName());
-            tvScore.setText(String.valueOf(app.getRiskScore()));
-            pbScoreBar.setProgress(app.getRiskScore());
+            tvScore.setText(String.valueOf(score));
+            pbScoreBar.setProgress(score);
 
             if (app.getIcon() != null) ivIcon.setImageDrawable(app.getIcon());
             else ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
 
-            applyRiskStyle(ctx, app.getDominantRisk());
+            applyRiskStyle(ctx, category);
 
             expandedLayout.setVisibility(expanded ? View.VISIBLE : View.GONE);
             if (expanded) {
@@ -251,7 +265,7 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             btnDetail            = itemView.findViewById(R.id.btn_detail);
         }
 
-        void bind(AppInfo app, boolean expanded) {
+        void bind(AppInfo app, boolean expanded, boolean grantedOnly) {
             Context ctx = itemView.getContext();
 
             tvAppName.setText(app.getAppName());

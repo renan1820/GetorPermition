@@ -88,7 +88,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Filter chips -->
+    <!-- Filter chips — risk level (single selection) -->
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group_filter"
         android:layout_width="0dp"
@@ -133,6 +133,30 @@
 
     </com.google.android.material.chip.ChipGroup>
 
+    <!-- Mode toggle — granted-only ranking (independent of risk filter) -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_mode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:singleSelection="false"
+        android:paddingStart="@dimen/s_4"
+        android:paddingEnd="@dimen/s_4"
+        app:layout_constraintTop_toBottomOf="@id/chip_group_filter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/s_1">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_granted_only"
+            style="@style/Widget.PA.Chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_granted_only"
+            android:checkable="true"
+            android:checked="false" />
+
+    </com.google.android.material.chip.ChipGroup>
+
     <!-- Apps list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_apps"
@@ -141,7 +165,7 @@
         android:clipToPadding="false"
         android:paddingTop="@dimen/s_2"
         android:paddingBottom="@dimen/s_4"
-        app:layout_constraintTop_toBottomOf="@id/chip_group_filter"
+        app:layout_constraintTop_toBottomOf="@id/chip_group_mode"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

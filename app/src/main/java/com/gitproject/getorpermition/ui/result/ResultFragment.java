@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gitproject.getorpermition.R;
 import com.gitproject.getorpermition.ui.scan.ScanViewModel;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -45,14 +46,16 @@ public class ResultFragment extends Fragment {
         tvGlobalScore = view.findViewById(R.id.tv_global_score);
         tvScoreStatus = view.findViewById(R.id.tv_score_status);
         tvAppsCount   = view.findViewById(R.id.tv_apps_count);
-        RecyclerView recyclerView = view.findViewById(R.id.rv_apps);
-        ChipGroup chipGroup = view.findViewById(R.id.chip_group_filter);
+        RecyclerView recyclerView     = view.findViewById(R.id.rv_apps);
+        ChipGroup chipGroup           = view.findViewById(R.id.chip_group_filter);
+        Chip chipGrantedOnly          = view.findViewById(R.id.chip_granted_only);
 
-        scanViewModel  = new ViewModelProvider(requireActivity()).get(ScanViewModel.class);
+        scanViewModel   = new ViewModelProvider(requireActivity()).get(ScanViewModel.class);
         resultViewModel = new ViewModelProvider(this).get(ResultViewModel.class);
 
         setupRecyclerView(recyclerView);
         setupChips(chipGroup);
+        setupGrantedOnlyToggle(chipGrantedOnly);
         observeViewModels();
         setupBackPressDialog();
     }
@@ -99,6 +102,13 @@ public class ResultFragment extends Fragment {
         });
     }
 
+    private void setupGrantedOnlyToggle(Chip chip) {
+        chip.setOnCheckedChangeListener((btn, isChecked) -> {
+            resultViewModel.setGrantedOnlyMode(isChecked);
+            adapter.setGrantedOnlyMode(isChecked);
+        });
+    }
+
     private void observeViewModels() {
         scanViewModel.getApps().observe(getViewLifecycleOwner(), apps -> {
             if (apps != null) {
@@ -107,7 +117,7 @@ public class ResultFragment extends Fragment {
             }
         });
 
-        scanViewModel.getGlobalScore().observe(getViewLifecycleOwner(), score -> {
+        resultViewModel.getDisplayScore().observe(getViewLifecycleOwner(), score -> {
             if (score != null) updateScoreCard(score);
         });
 

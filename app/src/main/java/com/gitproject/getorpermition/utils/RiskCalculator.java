@@ -26,6 +26,34 @@ public class RiskCalculator {
     private static final int CAP_HIGH       = 60;
     private static final int CAP_MEDIUM     = 24;
 
+    public static int calculateAppScoreGrantedOnly(AppInfo app) {
+        int penaltyHigh = 0, penaltyMedium = 0, penaltyLow = 0;
+        for (PermissionInfo p : app.getPermissions()) {
+            if (!p.isGranted()) continue;
+            if      (p.getRiskLevel() == RiskLevel.HIGH)   penaltyHigh   += PENALTY_HIGH;
+            else if (p.getRiskLevel() == RiskLevel.MEDIUM) penaltyMedium += PENALTY_MEDIUM;
+            else                                            penaltyLow    += PENALTY_LOW;
+        }
+        penaltyHigh   = Math.min(penaltyHigh,   CAP_HIGH);
+        penaltyMedium = Math.min(penaltyMedium, CAP_MEDIUM);
+        return Math.max(0, 100 - penaltyHigh - penaltyMedium - penaltyLow);
+    }
+
+    public static int calculateGlobalScoreGrantedOnly(List<AppInfo> apps) {
+        if (apps == null || apps.isEmpty()) return 100;
+        long weightedSum = 0, totalWeight = 0;
+        for (AppInfo app : apps) {
+            RiskLevel category = app.getGrantedAppCategory();
+            int weight;
+            if      (category == RiskLevel.EXTREME) weight = 4;
+            else if (category == RiskLevel.HIGH)    weight = 3;
+            else                                    weight = 1;
+            weightedSum += (long) app.getGrantedRiskScore() * weight;
+            totalWeight += weight;
+        }
+        return (int) (weightedSum / totalWeight);
+    }
+
     public static int calculateAppScore(AppInfo app) {
         int penaltyHigh   = 0;
         int penaltyMedium = 0;
