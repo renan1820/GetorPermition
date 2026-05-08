@@ -226,6 +226,58 @@ public class ScoringIntegrationTest {
         assertEquals(PermissionInfo.RiskLevel.HIGH, app.getDominantRisk());
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    // EXTREME category — end-to-end pipeline
+    // ═══════════════════════════════════════════════════════════════
+
+    @Test
+    public void extremeApp_hundredLowPerms_scoredZeroAndClassifiedExtreme() {
+        // 100 LOW permissions → 100 × 1 penalty = score 0 → getAppCategory() = EXTREME
+        List<PermissionInfo> perms = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            perms.add(PermissionClassifier.classify("android.permission.INTERNET"));
+        }
+        AppInfo app = new AppInfo("extreme", "com.extreme", perms);
+        app.setRiskScore(RiskCalculator.calculateAppScore(app));
+
+        assertEquals(0, app.getRiskScore());
+        assertEquals(PermissionInfo.RiskLevel.EXTREME, app.getAppCategory());
+        assertEquals(PermissionInfo.RiskLevel.LOW, app.getDominantRisk());
+    }
+
+    @Test
+    public void globalScore_extremeAppWeighsFourTimes_endToEnd() {
+        // EXTREME (score=0, w=4) + safe (score=100, w=1) = (0×4+100×1)/(4+1) = 20
+        AppInfo extreme = new AppInfo("extreme", "com.extreme", new ArrayList<>());
+        extreme.setRiskScore(0);
+
+        AppInfo safe = buildApp("safe");
+        assertEquals(20, RiskCalculator.calculateGlobalScore(Arrays.asList(extreme, safe)));
+    }
+
+    @Test
+    public void globalScore_extremeOutweighsHighDominantApp() {
+        // EXTREME (score=0, w=4) + clean (100, w=1) = (0×4+100)/(4+1) = 20
+        // HIGH    (score=40, w=3) + clean (100, w=1) = (40×3+100)/(3+1) = 55
+        // Even with a better raw score, the HIGH app contributes less harm than EXTREME.
+        AppInfo extreme = new AppInfo("extreme", "com.extreme", new ArrayList<>());
+        extreme.setRiskScore(0);
+
+        AppInfo high = buildApp("high", "android.permission.READ_CONTACTS"); // HIGH dominant
+        high.setRiskScore(40);
+
+        AppInfo clean1 = new AppInfo("c1", "com.c1", new ArrayList<>()); clean1.setRiskScore(100);
+        AppInfo clean2 = new AppInfo("c2", "com.c2", new ArrayList<>()); clean2.setRiskScore(100);
+
+        int withExtreme = RiskCalculator.calculateGlobalScore(Arrays.asList(extreme, clean1));
+        int withHigh    = RiskCalculator.calculateGlobalScore(Arrays.asList(high, clean2));
+
+        assertTrue("EXTREME (w=4) must drag global score lower than HIGH (w=3)",
+                withExtreme < withHigh);
+        assertEquals(20, withExtreme);
+        assertEquals(55, withHigh);
+    }
+
     // ── Private helper ────────────────────────────────────────────────────────
 
     private static List<PermissionInfo> buildPerms(String... names) {

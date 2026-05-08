@@ -322,4 +322,63 @@ public class RiskCalculatorTest {
         AppInfo lowApp = new AppInfo("L", "com.l", Collections.emptyList()); lowApp.setRiskScore(100);
         assertEquals(19, RiskCalculator.calculateGlobalScore(Arrays.asList(h1, h2, h3, lowApp)));
     }
+
+    // ═══════════════════════════════════════════════════════════════
+    // calculateGlobalScore — EXTREME weighting (weight = 4)
+    // ═══════════════════════════════════════════════════════════════
+
+    @Test
+    public void globalScore_extremeAppWeighsFourTimes() {
+        // EXTREME app (score=0, w=4) + LOW app (score=100, w=1)
+        // (0×4 + 100×1) / (4+1) = 100/5 = 20
+        AppInfo extreme = new AppInfo("Extreme", "com.extreme", Collections.emptyList());
+        extreme.setRiskScore(0);
+        AppInfo low = new AppInfo("Low", "com.low", Collections.emptyList());
+        low.setRiskScore(100);
+        assertEquals(20, RiskCalculator.calculateGlobalScore(Arrays.asList(extreme, low)));
+    }
+
+    @Test
+    public void globalScore_extremeWeighsMoreThanHigh() {
+        // EXTREME (score=0, w=4) + LOW (score=100, w=1) = 100/5 = 20
+        // HIGH    (score=1, w=3) + LOW (score=100, w=1) = 103/4 = 25
+        // EXTREME drags the global score lower than a HIGH app does
+        AppInfo extreme = new AppInfo("Extreme", "com.extreme", Collections.emptyList());
+        extreme.setRiskScore(0); // scoreSet=true, score=0 → EXTREME category, weight=4
+        AppInfo lowForExtreme = new AppInfo("Low1", "com.low1", Collections.emptyList());
+        lowForExtreme.setRiskScore(100);
+        int scoreWithExtreme = RiskCalculator.calculateGlobalScore(Arrays.asList(extreme, lowForExtreme));
+
+        AppInfo high = scoredApp(RiskLevel.HIGH); // dominant=HIGH, weight=3
+        high.setRiskScore(1); // non-zero keeps category as HIGH
+        AppInfo lowForHigh = new AppInfo("Low2", "com.low2", Collections.emptyList());
+        lowForHigh.setRiskScore(100);
+        int scoreWithHigh = RiskCalculator.calculateGlobalScore(Arrays.asList(high, lowForHigh));
+
+        assertEquals(20, scoreWithExtreme);
+        assertEquals(25, scoreWithHigh);
+        assertTrue(scoreWithExtreme < scoreWithHigh);
+    }
+
+    @Test
+    public void globalScore_twoExtremeApps_bothWeighFour() {
+        // 2× EXTREME (score=0, w=4 each)
+        // (0×4 + 0×4) / (4+4) = 0/8 = 0
+        AppInfo e1 = new AppInfo("E1", "com.e1", Collections.emptyList());
+        e1.setRiskScore(0);
+        AppInfo e2 = new AppInfo("E2", "com.e2", Collections.emptyList());
+        e2.setRiskScore(0);
+        assertEquals(0, RiskCalculator.calculateGlobalScore(Arrays.asList(e1, e2)));
+    }
+
+    @Test
+    public void globalScore_extremeMixedWithHigh_correctWeights() {
+        // EXTREME (score=0, w=4) + HIGH (score=40, w=3)
+        // (0×4 + 40×3) / (4+3) = 120/7 = 17 (integer division)
+        AppInfo extreme = new AppInfo("Extreme", "com.extreme", Collections.emptyList());
+        extreme.setRiskScore(0);
+        AppInfo high = scoredApp(RiskLevel.HIGH);
+        high.setRiskScore(40);
+        assertEquals(17, RiskCalculator.calculateGlobalScore(Arrays.asList(extreme, high)));
+    }
 }

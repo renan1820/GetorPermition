@@ -72,6 +72,14 @@ public class ResultViewModelTest {
         return app;
     }
 
+    /** App classified as EXTREME (score explicitly set to 0 after setRiskScore call). */
+    private static AppInfo extremeApp(String name) {
+        List<PermissionInfo> perms = Arrays.asList(perm(RiskLevel.HIGH), perm(RiskLevel.HIGH));
+        AppInfo app = new AppInfo(name, "com.test." + name, perms);
+        app.setRiskScore(0);
+        return app;
+    }
+
     private static PermissionInfo perm(RiskLevel level) {
         return new PermissionInfo("p." + level, level.name(), "Desc", level, "GRP");
     }
@@ -367,5 +375,48 @@ public class ResultViewModelTest {
 
         viewModel.setFilter(ResultViewModel.Filter.LOW);
         assertEquals(ResultViewModel.Filter.LOW, viewModel.getActiveFilter().getValue());
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // Filter.HIGH — EXTREME apps (score=0 → category=EXTREME)
+    // ═══════════════════════════════════════════════════════════════
+
+    @Test
+    public void filterHigh_extremeAppIsIncluded() {
+        // EXTREME category must appear under the HIGH filter
+        viewModel.setApps(Arrays.asList(extremeApp("e"), mediumApp("m"), lowApp("l")));
+        viewModel.setFilter(ResultViewModel.Filter.HIGH);
+        assertEquals(1, currentFiltered().size());
+        assertEquals("com.test.e", currentFiltered().get(0).getPackageName());
+    }
+
+    @Test
+    public void filterHigh_extremeAndHighMixed_bothIncluded() {
+        viewModel.setApps(Arrays.asList(extremeApp("e"), highApp("h"), mediumApp("m")));
+        viewModel.setFilter(ResultViewModel.Filter.HIGH);
+        assertEquals(2, currentFiltered().size());
+    }
+
+    @Test
+    public void filterMedium_extremeAppIsExcluded() {
+        viewModel.setApps(Arrays.asList(extremeApp("e"), mediumApp("m")));
+        viewModel.setFilter(ResultViewModel.Filter.MEDIUM);
+        assertEquals(1, currentFiltered().size());
+        assertEquals("com.test.m", currentFiltered().get(0).getPackageName());
+    }
+
+    @Test
+    public void filterLow_extremeAppIsExcluded() {
+        viewModel.setApps(Arrays.asList(extremeApp("e"), lowApp("l")));
+        viewModel.setFilter(ResultViewModel.Filter.LOW);
+        assertEquals(1, currentFiltered().size());
+        assertEquals("com.test.l", currentFiltered().get(0).getPackageName());
+    }
+
+    @Test
+    public void filterAll_extremeAppIsIncluded() {
+        viewModel.setApps(Arrays.asList(extremeApp("e"), highApp("h"), lowApp("l")));
+        viewModel.setFilter(ResultViewModel.Filter.ALL);
+        assertEquals(3, currentFiltered().size());
     }
 }
