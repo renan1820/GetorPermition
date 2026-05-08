@@ -103,14 +103,24 @@ public class PermissionRepository {
         if (pkg.requestedPermissions == null) return list;
 
         String lang = getCurrentLanguage();
-        for (String perm : pkg.requestedPermissions) {
-            if (perm != null) {
-                list.add(PermissionClassifier.classify(perm, lang));
+        int[] flags = pkg.requestedPermissionsFlags;
+        for (int i = 0; i < pkg.requestedPermissions.length; i++) {
+            String perm = pkg.requestedPermissions[i];
+            if (perm == null) continue;
+            PermissionInfo info = PermissionClassifier.classify(perm, lang);
+            if (flags != null && i < flags.length) {
+                boolean isGranted = (flags[i] & PackageInfo.REQUESTED_PERMISSION_GRANTED) != 0;
+                info = info.withGranted(isGranted);
             }
+            list.add(info);
         }
 
-        // Sort: HIGH first, then MEDIUM, then LOW
-        Collections.sort(list, (a, b) -> a.getRiskLevel().ordinal() - b.getRiskLevel().ordinal());
+        // Sort by risk level; within same level, granted permissions first
+        Collections.sort(list, (a, b) -> {
+            int cmp = a.getRiskLevel().ordinal() - b.getRiskLevel().ordinal();
+            if (cmp != 0) return cmp;
+            return Boolean.compare(!a.isGranted(), !b.isGranted());
+        });
         return list;
     }
 

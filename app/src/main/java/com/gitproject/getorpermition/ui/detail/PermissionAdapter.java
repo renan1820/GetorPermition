@@ -60,6 +60,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
         FrameLayout flIconContainer;
         TextView tvName;
         TextView tvBadge;
+        TextView tvGrantStatus;
         TextView tvChevron;
         LinearLayout layoutRiskDetail;
         TextView tvExplanation;
@@ -70,6 +71,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
             flIconContainer  = itemView.findViewById(R.id.fl_icon_container);
             tvName           = itemView.findViewById(R.id.tv_permission_name);
             tvBadge          = itemView.findViewById(R.id.tv_permission_badge);
+            tvGrantStatus    = itemView.findViewById(R.id.tv_grant_status);
             tvChevron        = itemView.findViewById(R.id.tv_chevron);
             layoutRiskDetail = itemView.findViewById(R.id.layout_risk_detail);
             tvExplanation    = itemView.findViewById(R.id.tv_permission_explanation);
@@ -113,6 +115,18 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
             tvBadge.setTextColor(textColor);
             tvBadge.setText(label);
             flIconContainer.setBackgroundColor(iconBg);
+
+            if (p.isGranted()) {
+                tvGrantStatus.setText(ctx.getString(R.string.permission_granted));
+                tvGrantStatus.setTextColor(textColor);
+                tvGrantStatus.setBackgroundResource(badgeDrawable);
+                tvGrantStatus.setVisibility(View.VISIBLE);
+            } else {
+                tvGrantStatus.setText(ctx.getString(R.string.permission_denied));
+                tvGrantStatus.setTextColor(ContextCompat.getColor(ctx, R.color.text_muted));
+                tvGrantStatus.setBackgroundResource(0);
+                tvGrantStatus.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

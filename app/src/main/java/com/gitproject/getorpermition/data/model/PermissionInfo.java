@@ -13,6 +13,7 @@ public class PermissionInfo implements Serializable {
     private final String maliciousUse;     // 1 example of what a malicious app could do
     private final RiskLevel riskLevel;
     private final String group;            // e.g. "LOCATION", "CONTACTS"
+    private boolean granted = false;       // true = user actually granted this permission
 
     /** Full constructor used by PermissionClassifier. */
     public PermissionInfo(String permissionName, String readableName,
@@ -38,4 +39,13 @@ public class PermissionInfo implements Serializable {
     public String getMaliciousUse()   { return maliciousUse; }
     public RiskLevel getRiskLevel()   { return riskLevel; }
     public String getGroup()          { return group; }
+    public boolean isGranted()        { return granted; }
+
+    /** Returns a new instance with the grant status set, preserving all other fields. */
+    public PermissionInfo withGranted(boolean granted) {
+        PermissionInfo copy = new PermissionInfo(
+                permissionName, readableName, explanation, maliciousUse, riskLevel, group);
+        copy.granted = granted;
+        return copy;
+    }
 }

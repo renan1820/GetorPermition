@@ -191,16 +191,23 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         void addPermissionLine(Context ctx, PermissionInfo p) {
             int nameColor;
-            switch (p.getRiskLevel()) {
-                case HIGH:   nameColor = ContextCompat.getColor(ctx, R.color.risk_high_2);   break;
-                case MEDIUM: nameColor = ContextCompat.getColor(ctx, R.color.risk_medium_2); break;
-                default:     nameColor = ContextCompat.getColor(ctx, R.color.text_muted);    break;
+            String prefix;
+            if (p.isGranted()) {
+                prefix = "● ";
+                switch (p.getRiskLevel()) {
+                    case HIGH:   nameColor = ContextCompat.getColor(ctx, R.color.risk_high_2);   break;
+                    case MEDIUM: nameColor = ContextCompat.getColor(ctx, R.color.risk_medium_2); break;
+                    default:     nameColor = ContextCompat.getColor(ctx, R.color.text_muted);    break;
+                }
+            } else {
+                prefix = "○ ";
+                nameColor = ContextCompat.getColor(ctx, R.color.text_muted);
             }
             permissionsContainer.addView(
-                    makeTextView(ctx, "· " + p.getReadableName(), nameColor, 13f, 4));
+                    makeTextView(ctx, prefix + p.getReadableName(), nameColor, 13f, 4));
 
-            // Explanation only for dangerous permissions
-            if (p.getRiskLevel() != PermissionInfo.RiskLevel.LOW
+            // Explanation only for dangerous permissions that are actually granted
+            if (p.isGranted() && p.getRiskLevel() != PermissionInfo.RiskLevel.LOW
                     && p.getExplanation() != null && !p.getExplanation().isEmpty()) {
                 permissionsContainer.addView(
                         makeTextView(ctx, "  " + p.getExplanation(),
@@ -260,22 +267,23 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 for (int i = 0; i < limit; i++) {
                     PermissionInfo p = perms.get(i);
                     int nameColor;
-                    switch (p.getRiskLevel()) {
-                        case HIGH:
-                            nameColor = ContextCompat.getColor(ctx, R.color.risk_critical_2);
-                            break;
-                        case MEDIUM:
-                            nameColor = ContextCompat.getColor(ctx, R.color.risk_medium_2);
-                            break;
-                        default:
-                            nameColor = ContextCompat.getColor(ctx, R.color.text_muted);
-                            break;
+                    String prefix;
+                    if (p.isGranted()) {
+                        prefix = "● ";
+                        switch (p.getRiskLevel()) {
+                            case HIGH:   nameColor = ContextCompat.getColor(ctx, R.color.risk_critical_2); break;
+                            case MEDIUM: nameColor = ContextCompat.getColor(ctx, R.color.risk_medium_2);   break;
+                            default:     nameColor = ContextCompat.getColor(ctx, R.color.text_muted);      break;
+                        }
+                    } else {
+                        prefix = "○ ";
+                        nameColor = ContextCompat.getColor(ctx, R.color.text_muted);
                     }
                     permissionsContainer.addView(
-                            makeTextView(ctx, "· " + p.getReadableName(), nameColor, 13f, 4));
+                            makeTextView(ctx, prefix + p.getReadableName(), nameColor, 13f, 4));
 
-                    // Explanation for HIGH and MEDIUM
-                    if (p.getRiskLevel() != PermissionInfo.RiskLevel.LOW
+                    // Explanation only for dangerous permissions that are actually granted
+                    if (p.isGranted() && p.getRiskLevel() != PermissionInfo.RiskLevel.LOW
                             && p.getExplanation() != null && !p.getExplanation().isEmpty()) {
                         permissionsContainer.addView(
                                 makeTextView(ctx, "  " + p.getExplanation(),

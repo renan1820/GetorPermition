@@ -37,4 +37,6 @@
     <string name="language_select_title">Language</string>
     <string name="language_pt_br">Portuguese (Brazil)</string>
     <string name="language_en">English</string>
+    <string name="permission_granted">Granted</string>
+    <string name="permission_denied">Denied</string>
 </resources>
