@@ -102,15 +102,20 @@ public class PermissionRepository {
         List<PermissionInfo> list = new ArrayList<>();
         if (pkg.requestedPermissions == null) return list;
 
+        String lang = getCurrentLanguage();
         for (String perm : pkg.requestedPermissions) {
             if (perm != null) {
-                list.add(PermissionClassifier.classify(perm));
+                list.add(PermissionClassifier.classify(perm, lang));
             }
         }
 
         // Sort: HIGH first, then MEDIUM, then LOW
         Collections.sort(list, (a, b) -> a.getRiskLevel().ordinal() - b.getRiskLevel().ordinal());
         return list;
+    }
+
+    private String getCurrentLanguage() {
+        return context.getResources().getConfiguration().getLocales().get(0).getLanguage();
     }
 
     // An app is considered a system app if it's installed in /system partition

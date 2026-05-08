@@ -31,4 +31,9 @@
     <string name="score_label">Score de segurança</string>
     <string name="apps_analyzed">apps analisados</string>
     <string name="global_score_label">Score Global do Dispositivo</string>
+    <string name="scan_error">Erro ao escanear apps.</string>
+    <string name="more_permissions">+%d mais permissões</string>
+    <string name="language_select_title">Idioma</string>
+    <string name="language_pt_br">Português (Brasil)</string>
+    <string name="language_en">English</string>
 </resources>

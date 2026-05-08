@@ -148,7 +148,7 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 for (int i = 0; i < limit; i++) addPermissionLine(ctx, perms.get(i));
                 if (perms.size() > 5) {
                     permissionsContainer.addView(makeTextView(ctx,
-                            "+" + (perms.size() - 5) + " mais permissões",
+                            ctx.getString(R.string.more_permissions, perms.size() - 5),
                             ContextCompat.getColor(ctx, R.color.text_muted), 12f, 0));
                 }
             }
@@ -284,7 +284,7 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
                 if (perms.size() > 5) {
                     permissionsContainer.addView(makeTextView(ctx,
-                            "+" + (perms.size() - 5) + " mais permissões",
+                            ctx.getString(R.string.more_permissions, perms.size() - 5),
                             ContextCompat.getColor(ctx, R.color.text_muted), 12f, 0));
                 }
             }
@@ -304,3 +304,4 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 }
+

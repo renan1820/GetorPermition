@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Permission Auditor</string>
+    <string name="scan_title">Permission Auditor</string>
+    <string name="scan_subtitle">Analyze the security of your apps</string>
+    <string name="btn_start_scan">START SCAN</string>
+    <string name="scanning_label">Analyzing…</string>
+    <string name="scan_complete">Analysis complete</string>
+    <string name="result_title">Analysis Results</string>
+    <string name="score_vulnerable">Vulnerable</string>
+    <string name="score_moderate">Moderate</string>
+    <string name="score_safe">Safe</string>
+    <string name="vpn_active">VPN Active</string>
+    <string name="vpn_inactive">VPN Inactive</string>
+    <string name="filter_all">All</string>
+    <string name="filter_high">High Risk</string>
+    <string name="filter_medium">Medium</string>
+    <string name="filter_safe">Safe</string>
+    <string name="btn_see_details">See details</string>
+    <string name="btn_open_settings">Open Settings</string>
+    <string name="detail_permissions_title">Declared permissions</string>
+    <string name="risk_critical">CRITICAL</string>
+    <string name="critical_alert_label">Maximum risk detected</string>
+    <string name="risk_high">HIGH</string>
+    <string name="risk_medium">MEDIUM</string>
+    <string name="risk_low">LOW</string>
+    <string name="malicious_app_risk_label">In a malicious app:</string>
+    <string name="dialog_rescan_title">Rescan?</string>
+    <string name="dialog_rescan_message">Do you want to start a new scan of your apps?</string>
+    <string name="dialog_rescan_yes">Yes, restart</string>
+    <string name="dialog_rescan_no">No</string>
+    <string name="score_label">Security score</string>
+    <string name="apps_analyzed">apps analyzed</string>
+    <string name="global_score_label">Device Global Score</string>
+    <string name="scan_error">Error scanning apps.</string>
+    <string name="more_permissions">+%d more permissions</string>
+    <string name="language_select_title">Language</string>
+    <string name="language_pt_br">Portuguese (Brazil)</string>
+    <string name="language_en">English</string>
+</resources>

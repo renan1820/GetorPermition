@@ -13,6 +13,7 @@ import java.util.Map;
 public class PermissionClassifier {
 
     private static final Map<String, PermissionInfo> PERMISSION_MAP = new HashMap<>();
+    private static final Map<String, PermissionInfo> EN_MAP = new HashMap<>();
 
     static {
         // ── HIGH RISK ────────────────────────────────────────────────────────────
@@ -265,9 +266,266 @@ public class PermissionClassifier {
                 RiskLevel.LOW, "HARDWARE");
     }
 
+    static {
+        // ── HIGH RISK (EN) ───────────────────────────────────────────────────────
+        addEn("android.permission.READ_CONTACTS",
+                "Read Contacts",
+                "Accesses your full contact list.",
+                "Can export all your contacts to spam servers or sell your list to third parties.",
+                RiskLevel.HIGH, "CONTACTS");
+
+        addEn("android.permission.WRITE_CONTACTS",
+                "Edit Contacts",
+                "Can modify or delete contacts.",
+                "Can erase all your contacts or inject fake ones for phishing attacks.",
+                RiskLevel.HIGH, "CONTACTS");
+
+        addEn("android.permission.ACCESS_FINE_LOCATION",
+                "Precise GPS Location",
+                "Tracks your exact position via GPS.",
+                "Can monitor your real-time location and reveal your home, work, and daily routines.",
+                RiskLevel.HIGH, "LOCATION");
+
+        addEn("android.permission.ACCESS_BACKGROUND_LOCATION",
+                "Background Location",
+                "Tracks location even when the app is closed.",
+                "Can send your movements to remote servers 24/7 without your knowledge.",
+                RiskLevel.HIGH, "LOCATION");
+
+        addEn("android.permission.READ_CALL_LOG",
+                "Call History",
+                "Reads all your call records.",
+                "Can map your personal and professional relationships for targeted attacks.",
+                RiskLevel.HIGH, "PHONE");
+
+        addEn("android.permission.PROCESS_OUTGOING_CALLS",
+                "Intercept Calls",
+                "Can intercept and redirect your outgoing calls.",
+                "Can record your calls or redirect them to fraudulent numbers without your knowledge.",
+                RiskLevel.HIGH, "PHONE");
+
+        addEn("android.permission.READ_SMS",
+                "Read SMS",
+                "Reads all your text messages, including 2FA codes.",
+                "Can steal banking authentication codes and commit financial fraud in your name.",
+                RiskLevel.HIGH, "SMS");
+
+        addEn("android.permission.SEND_SMS",
+                "Send SMS",
+                "Can send messages on your behalf, incurring costs.",
+                "Can silently subscribe you to paid SMS services or send scams to your contacts.",
+                RiskLevel.HIGH, "SMS");
+
+        addEn("android.permission.RECEIVE_SMS",
+                "Receive SMS",
+                "Intercepts messages before you see them.",
+                "Can silently capture two-factor verification tokens to hijack your accounts.",
+                RiskLevel.HIGH, "SMS");
+
+        addEn("android.permission.RECORD_AUDIO",
+                "Record Audio",
+                "Accesses the microphone to record conversations.",
+                "Can eavesdrop on private conversations and confidential meetings without consent.",
+                RiskLevel.HIGH, "MICROPHONE");
+
+        addEn("android.permission.BIND_ACCESSIBILITY_SERVICE",
+                "Accessibility Service",
+                "Can read and control anything on the screen.",
+                "Can log your keystrokes, make purchases, and control the device remotely.",
+                RiskLevel.HIGH, "ACCESSIBILITY");
+
+        addEn("android.permission.PACKAGE_USAGE_STATS",
+                "App Usage Stats",
+                "Monitors which apps you use and for how long.",
+                "Can identify installed banking apps and direct targeted attacks against them.",
+                RiskLevel.HIGH, "USAGE");
+
+        addEn("android.permission.READ_EXTERNAL_STORAGE",
+                "Read Storage",
+                "Accesses all files on external storage.",
+                "Can access and leak photos, documents, and personal files stored on the device.",
+                RiskLevel.HIGH, "STORAGE");
+
+        addEn("android.permission.WRITE_EXTERNAL_STORAGE",
+                "Write to Storage",
+                "Can create, modify, and delete files.",
+                "Can encrypt your files and demand a ransom to release them (ransomware).",
+                RiskLevel.HIGH, "STORAGE");
+
+        addEn("android.permission.WRITE_CALL_LOG",
+                "Edit Call History",
+                "Can modify your call records.",
+                "Can falsify your call history to cover up fraudulent activity.",
+                RiskLevel.HIGH, "PHONE");
+
+        addEn("android.permission.SYSTEM_ALERT_WINDOW",
+                "Draw Over Other Apps",
+                "Can show overlays on top of other apps.",
+                "Can display fake screens over banking apps to steal your credentials (overlay attack).",
+                RiskLevel.HIGH, "SYSTEM");
+
+        // ── MEDIUM RISK (EN) ─────────────────────────────────────────────────────
+        addEn("android.permission.ACCESS_COARSE_LOCATION",
+                "Approximate Location",
+                "Gets location via Wi-Fi/cell network.",
+                "Can determine your neighborhood and map your daily movement patterns.",
+                RiskLevel.MEDIUM, "LOCATION");
+
+        addEn("android.permission.READ_PHONE_STATE",
+                "Phone State",
+                "Reads IMEI, phone number, and call status.",
+                "Can link your IMEI to a permanent, unerasable tracking profile.",
+                RiskLevel.MEDIUM, "PHONE");
+
+        addEn("android.permission.GET_ACCOUNTS",
+                "Device Accounts",
+                "Lists your Google and other service accounts.",
+                "Can identify your active accounts and attempt unauthorized access via phishing.",
+                RiskLevel.MEDIUM, "ACCOUNTS");
+
+        addEn("android.permission.CAMERA",
+                "Camera",
+                "Accesses front and rear cameras.",
+                "Can silently take photos or record video while you use the app.",
+                RiskLevel.MEDIUM, "CAMERA");
+
+        addEn("android.permission.USE_BIOMETRIC",
+                "Biometrics",
+                "Accesses biometric sensors (fingerprint, face).",
+                "Can trigger biometric authentication prompts for unauthorized sensitive actions.",
+                RiskLevel.MEDIUM, "BIOMETRIC");
+
+        addEn("android.permission.USE_FINGERPRINT",
+                "Fingerprint",
+                "Accesses the fingerprint reader.",
+                "Can attempt to capture fingerprint data to spoof authentication.",
+                RiskLevel.MEDIUM, "BIOMETRIC");
+
+        addEn("android.permission.BLUETOOTH",
+                "Bluetooth",
+                "Connects to nearby Bluetooth devices.",
+                "Can silently connect to headphones, speakers, and devices nearby.",
+                RiskLevel.MEDIUM, "BLUETOOTH");
+
+        addEn("android.permission.BLUETOOTH_SCAN",
+                "Scan Bluetooth",
+                "Discovers nearby Bluetooth devices.",
+                "Can map nearby devices to covertly track your location.",
+                RiskLevel.MEDIUM, "BLUETOOTH");
+
+        addEn("android.permission.READ_MEDIA_IMAGES",
+                "Read Images",
+                "Accesses photos and images in the gallery.",
+                "Can access and leak personal photos, photographed documents, and sensitive images.",
+                RiskLevel.MEDIUM, "MEDIA");
+
+        addEn("android.permission.READ_MEDIA_VIDEO",
+                "Read Videos",
+                "Accesses videos stored on the device.",
+                "Can access and stream private videos to external servers.",
+                RiskLevel.MEDIUM, "MEDIA");
+
+        addEn("android.permission.READ_MEDIA_AUDIO",
+                "Read Audio Files",
+                "Accesses audio files and music.",
+                "Can access voice memos and local recordings stored on the device.",
+                RiskLevel.MEDIUM, "MEDIA");
+
+        addEn("android.permission.CALL_PHONE",
+                "Make Calls",
+                "Can place phone calls without confirmation.",
+                "Can call international premium-rate numbers, generating high charges on your bill.",
+                RiskLevel.MEDIUM, "PHONE");
+
+        addEn("android.permission.MANAGE_EXTERNAL_STORAGE",
+                "Manage Storage",
+                "Broad access to all files on the device.",
+                "Can delete, modify, or exfiltrate any file present on the device.",
+                RiskLevel.MEDIUM, "STORAGE");
+
+        // ── LOW RISK (EN) ────────────────────────────────────────────────────────
+        addEn("android.permission.INTERNET",
+                "Internet",
+                "Connects to the internet.",
+                "Can transmit collected data to external servers without your knowledge.",
+                RiskLevel.LOW, "NETWORK");
+
+        addEn("android.permission.ACCESS_NETWORK_STATE",
+                "Network State",
+                "Checks whether there is an internet connection.",
+                "Can detect when you connect to a network to time data transmissions.",
+                RiskLevel.LOW, "NETWORK");
+
+        addEn("android.permission.ACCESS_WIFI_STATE",
+                "Wi-Fi State",
+                "Checks Wi-Fi network information.",
+                "Can use visited Wi-Fi networks as a coarse location beacon.",
+                RiskLevel.LOW, "NETWORK");
+
+        addEn("android.permission.CHANGE_WIFI_STATE",
+                "Change Wi-Fi",
+                "Can enable/disable Wi-Fi.",
+                "Can disconnect you from secure networks to force use of insecure ones.",
+                RiskLevel.LOW, "NETWORK");
+
+        addEn("android.permission.VIBRATE",
+                "Vibration",
+                "Controls device vibration.",
+                "Minimal risk; in isolation it poses no significant threat to privacy.",
+                RiskLevel.LOW, "HARDWARE");
+
+        addEn("android.permission.RECEIVE_BOOT_COMPLETED",
+                "Start on Boot",
+                "Launches automatically when the device starts.",
+                "Can restart malicious processes automatically after every reboot.",
+                RiskLevel.LOW, "SYSTEM");
+
+        addEn("android.permission.FOREGROUND_SERVICE",
+                "Foreground Service",
+                "Keeps a process running in the background.",
+                "Can keep a malicious process active and hidden while the app runs in the background.",
+                RiskLevel.LOW, "SYSTEM");
+
+        addEn("android.permission.WAKE_LOCK",
+                "Keep Device Awake",
+                "Prevents the device from entering sleep mode.",
+                "Can keep the processor active to execute hidden tasks while draining your battery.",
+                RiskLevel.LOW, "SYSTEM");
+
+        addEn("android.permission.REQUEST_INSTALL_PACKAGES",
+                "Install Apps",
+                "Can request installation of other applications.",
+                "Can silently install additional malicious apps on your device without confirmation.",
+                RiskLevel.LOW, "SYSTEM");
+
+        addEn("android.permission.POST_NOTIFICATIONS",
+                "Send Notifications",
+                "Displays notifications in the status bar.",
+                "Can display phishing notifications imitating banks or trusted services.",
+                RiskLevel.LOW, "NOTIFICATIONS");
+
+        addEn("android.permission.SCHEDULE_EXACT_ALARM",
+                "Exact Alarms",
+                "Schedules precise alarms (for reminders).",
+                "Minimal risk; can be used to schedule background operations at specific times.",
+                RiskLevel.LOW, "ALARM");
+
+        addEn("android.permission.FLASHLIGHT",
+                "Flashlight",
+                "Controls the camera flash/flashlight.",
+                "Minimal risk; isolated use poses no direct threat to privacy.",
+                RiskLevel.LOW, "HARDWARE");
+    }
+
     private static void add(String permission, String readable, String explanation,
                              String maliciousUse, RiskLevel risk, String group) {
         PERMISSION_MAP.put(permission,
+                new PermissionInfo(permission, readable, explanation, maliciousUse, risk, group));
+    }
+
+    private static void addEn(String permission, String readable, String explanation,
+                               String maliciousUse, RiskLevel risk, String group) {
+        EN_MAP.put(permission,
                 new PermissionInfo(permission, readable, explanation, maliciousUse, risk, group));
     }
 
@@ -282,6 +540,22 @@ public class PermissionClassifier {
         return new PermissionInfo(permissionName, shortName,
                 "Permissão não catalogada.",
                 "Comportamento desconhecido; trate com cautela.",
+                RiskLevel.LOW, "OTHER");
+    }
+
+    public static PermissionInfo classify(String permissionName, String languageCode) {
+        Map<String, PermissionInfo> map = "en".equals(languageCode) ? EN_MAP : PERMISSION_MAP;
+        PermissionInfo known = map.get(permissionName);
+        if (known != null) return known;
+
+        String shortName = permissionName.contains(".")
+                ? permissionName.substring(permissionName.lastIndexOf('.') + 1)
+                        .replace("_", " ").toLowerCase()
+                : permissionName;
+        boolean isEn = "en".equals(languageCode);
+        return new PermissionInfo(permissionName, shortName,
+                isEn ? "Uncatalogued permission." : "Permissão não catalogada.",
+                isEn ? "Unknown behavior; treat with caution." : "Comportamento desconhecido; trate com cautela.",
                 RiskLevel.LOW, "OTHER");
     }
 }
