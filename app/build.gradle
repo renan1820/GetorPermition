@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation libs.appcompat
+    implementation 'com.airbnb.android:lottie:6.4.0'
     implementation libs.material
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.7.0'

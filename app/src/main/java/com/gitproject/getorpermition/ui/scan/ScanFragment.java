@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.airbnb.lottie.LottieAnimationView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -27,7 +28,7 @@ public class ScanFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView tvCurrentApp;
     private TextView tvStatus;
-    private RadarView radarView;
+    private LottieAnimationView scanAnimation;
 
     @Nullable
     @Override
@@ -41,12 +42,12 @@ public class ScanFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        btnScan    = view.findViewById(R.id.btn_start_scan);
-        ibLanguage = view.findViewById(R.id.ib_language);
-        progressBar  = view.findViewById(R.id.progress_scan);
-        tvCurrentApp = view.findViewById(R.id.tv_current_app);
-        tvStatus     = view.findViewById(R.id.tv_status);
-        radarView    = view.findViewById(R.id.radar_view);
+        btnScan       = view.findViewById(R.id.btn_start_scan);
+        ibLanguage    = view.findViewById(R.id.ib_language);
+        progressBar   = view.findViewById(R.id.progress_scan);
+        tvCurrentApp  = view.findViewById(R.id.tv_current_app);
+        tvStatus      = view.findViewById(R.id.tv_status);
+        scanAnimation = view.findViewById(R.id.scan_animation);
 
         // Scoped to Activity so ResultFragment reads the same data
         viewModel = new ViewModelProvider(requireActivity()).get(ScanViewModel.class);
@@ -94,7 +95,8 @@ public class ScanFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         tvCurrentApp.setVisibility(View.GONE);
         tvStatus.setText("");
-        radarView.stopAnimation();
+        scanAnimation.cancelAnimation();
+        scanAnimation.setProgress(0f);
     }
 
     private void showScanningUi() {
@@ -102,7 +104,7 @@ public class ScanFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         tvCurrentApp.setVisibility(View.VISIBLE);
         tvStatus.setText(getString(R.string.scanning_label));
-        radarView.startAnimation();
+        scanAnimation.playAnimation();
     }
 
     private void showLanguageDialog() {
