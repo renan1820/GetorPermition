@@ -1,24 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Permission Auditor — Color Tokens
+  Gerado pelo Claude Design System
+-->
 <resources>
-    <!-- Legacy colors kept for compatibility -->
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
 
-    <!-- Permission Auditor dark theme palette -->
-    <color name="bg_primary">#0A0C10</color>
-    <color name="bg_surface">#12151C</color>
-    <color name="bg_surface2">#1A1E28</color>
-    <color name="accent_green">#00E5A0</color>
-    <color name="accent_green_dark">#00B07A</color>
-    <color name="risk_high">#FF4757</color>
-    <color name="risk_medium">#FFA502</color>
-    <color name="risk_low">#2ED573</color>
-    <color name="text_primary">#F0F2F8</color>
-    <color name="text_muted">#6B7280</color>
-    <color name="divider">#1F2937</color>
-    <color name="card_stroke">#1F2937</color>
-    <color name="vpn_active">#00E5A0</color>
-    <color name="score_vulnerable">#FF4757</color>
-    <color name="score_moderate">#FFA502</color>
-    <color name="score_safe">#2ED573</color>
+    <!-- ═══════════════════════════════════════════════════════════
+         SURFACES (escala de superfícies, do mais escuro ao mais claro)
+         ═══════════════════════════════════════════════════════════ -->
+    <color name="bg_0">#FF08090C</color>          <!-- canvas / scrim -->
+    <color name="bg_1">#FF0F1218</color>          <!-- base surface -->
+    <color name="bg_2">#FF181C25</color>          <!-- card -->
+    <color name="bg_3">#FF232834</color>          <!-- raised / hover -->
+    <color name="bg_4">#FF2D3343</color>          <!-- input / chip -->
+
+    <!-- ═══════════════════════════════════════════════════════════
+         BORDERS (alpha sobre branco)
+         ═══════════════════════════════════════════════════════════ -->
+    <color name="border_subtle">#0FFFFFFF</color>
+    <color name="border_default">#1AFFFFFF</color>
+    <color name="border_strong">#29FFFFFF</color>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         TEXT
+         ═══════════════════════════════════════════════════════════ -->
+    <color name="text_primary">#FFF2F4F8</color>
+    <color name="text_secondary">#FFA8AEBD</color>
+    <color name="text_muted">#FF6B7280</color>
+    <color name="text_inverse">#FF0A0C10</color>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         BRAND · CYAN
+         ═══════════════════════════════════════════════════════════ -->
+    <color name="brand_300">#FF67E8F9</color>
+    <color name="brand_500">#FF22D3EE</color>     <!-- principal -->
+    <color name="brand_600">#FF06B6D4</color>
+    <color name="brand_700">#FF0891B2</color>
+    <color name="brand_glow">#5222D3EE</color>    <!-- alpha 0.32 -->
+
+    <!-- ═══════════════════════════════════════════════════════════
+         RISK SCALE
+         ═══════════════════════════════════════════════════════════ -->
+    <!-- Alto (rose) -->
+    <color name="risk_high">#FFF43F5E</color>
+    <color name="risk_high_2">#FFFB7185</color>
+    <color name="risk_high_bg">#1FF43F5E</color>  <!-- alpha 0.12 -->
+    <color name="risk_high_bd">#52F43F5E</color>  <!-- alpha 0.32 -->
+
+    <!-- Médio (amber) -->
+    <color name="risk_medium">#FFF59E0B</color>
+    <color name="risk_medium_2">#FFFBBF24</color>
+    <color name="risk_medium_bg">#1FF59E0B</color>
+    <color name="risk_medium_bd">#52F59E0B</color>
+
+    <!-- Baixo (emerald) -->
+    <color name="risk_low">#FF34D399</color>
+    <color name="risk_low_2">#FF6EE7B7</color>
+    <color name="risk_low_bg">#1F34D399</color>
+    <color name="risk_low_bd">#5234D399</color>
+
+    <!-- Crítico (red — score = 0) -->
+    <color name="risk_critical">#FFEF4444</color>
+    <color name="risk_critical_2">#FFF87171</color>
+    <color name="risk_critical_bg">#1FEF4444</color>  <!-- alpha 0.12 -->
+    <color name="risk_critical_bd">#52EF4444</color>  <!-- alpha 0.32 -->
+    <color name="risk_critical_banner">#33EF4444</color>
+    <color name="risk_critical_banner_bd">#80EF4444</color>
+
+    <!-- Semantic -->
+    <color name="info">#FF60A5FA</color>
+    <color name="vpn_on">#FF34D399</color>
+
+    <!-- Aliases para Material Components -->
+    <color name="colorPrimary">@color/brand_500</color>
+    <color name="colorPrimaryVariant">@color/brand_600</color>
+    <color name="colorOnPrimary">@color/text_inverse</color>
+    <color name="colorSecondary">@color/brand_300</color>
+    <color name="colorSurface">@color/bg_2</color>
+    <color name="colorOnSurface">@color/text_primary</color>
+    <color name="colorBackground">@color/bg_0</color>
+    <color name="colorOnBackground">@color/text_primary</color>
+    <color name="colorError">@color/risk_high</color>
+
+    <!-- Aliases legados (usados em código Java via R.color.*) -->
+    <color name="bg_primary">@color/bg_1</color>
+    <color name="accent_green">@color/brand_500</color>
+    <color name="text_muted_alias">@color/text_muted</color>
+
 </resources>

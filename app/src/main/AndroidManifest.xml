@@ -8,7 +8,7 @@
         Alternative: use <queries> block below if distributing via Play Store.
     -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
+        tools:ignore="PackageVisibilityPolicy,QueryAllPackagesPermission" />
 
     <!--
         <queries> block: fallback for Play Store distribution without QUERY_ALL_PACKAGES.

@@ -18,9 +18,16 @@
     <string name="btn_see_details">Ver detalhes</string>
     <string name="btn_open_settings">Abrir Configurações</string>
     <string name="detail_permissions_title">Permissões declaradas</string>
+    <string name="risk_critical">CRÍTICO</string>
+    <string name="critical_alert_label">Risco máximo detectado</string>
     <string name="risk_high">ALTO</string>
     <string name="risk_medium">MÉDIO</string>
     <string name="risk_low">BAIXO</string>
+    <string name="malicious_app_risk_label">Em um app malicioso:</string>
+    <string name="dialog_rescan_title">Refazer análise?</string>
+    <string name="dialog_rescan_message">Deseja iniciar um novo escaneamento dos seus aplicativos?</string>
+    <string name="dialog_rescan_yes">Sim, reiniciar</string>
+    <string name="dialog_rescan_no">Não</string>
     <string name="score_label">Score de segurança</string>
     <string name="apps_analyzed">apps analisados</string>
     <string name="global_score_label">Score Global do Dispositivo</string>

@@ -40,10 +40,17 @@ public class ResultViewModel extends ViewModel {
         }
         List<AppInfo> result = new ArrayList<>();
         for (AppInfo app : allApps) {
-            PermissionInfo.RiskLevel dominant = app.getDominantRisk();
-            if (filter == Filter.HIGH && dominant == PermissionInfo.RiskLevel.HIGH) result.add(app);
-            else if (filter == Filter.MEDIUM && dominant == PermissionInfo.RiskLevel.MEDIUM) result.add(app);
-            else if (filter == Filter.LOW && dominant == PermissionInfo.RiskLevel.LOW) result.add(app);
+            PermissionInfo.RiskLevel category = app.getAppCategory();
+            // EXTREME apps (score = 0) are shown under the HIGH filter — they are the worst category
+            if (filter == Filter.HIGH
+                    && (category == PermissionInfo.RiskLevel.EXTREME
+                        || category == PermissionInfo.RiskLevel.HIGH)) {
+                result.add(app);
+            } else if (filter == Filter.MEDIUM && category == PermissionInfo.RiskLevel.MEDIUM) {
+                result.add(app);
+            } else if (filter == Filter.LOW && category == PermissionInfo.RiskLevel.LOW) {
+                result.add(app);
+            }
         }
         filteredApps.setValue(result);
     }

@@ -5,74 +5,87 @@
     android:id="@+id/card_app"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="10dp"
-    app:cardBackgroundColor="@color/bg_surface"
-    app:cardCornerRadius="14dp"
-    app:cardElevation="0dp">
+    android:layout_marginStart="@dimen/s_4"
+    android:layout_marginEnd="@dimen/s_4"
+    android:layout_marginBottom="@dimen/s_3"
+    app:cardBackgroundColor="@color/bg_2"
+    app:cardCornerRadius="@dimen/r_md"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/border_subtle"
+    app:strokeWidth="@dimen/stroke_thin">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="@dimen/s_4">
 
-        <!-- Header row: icon + name + badge + score -->
+        <!-- Header row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
+            <!-- App icon -->
             <ImageView
                 android:id="@+id/iv_app_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/h_app_icon"
+                android:layout_height="@dimen/h_app_icon"
                 android:contentDescription="App icon" />
 
+            <!-- Name + badge column -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_marginStart="12dp">
+                android:layout_marginStart="@dimen/s_3">
 
                 <TextView
                     android:id="@+id/tv_app_name"
+                    style="@style/TextAppearance.PA.H3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_primary"
-                    android:textSize="15sp"
-                    android:fontFamily="sans-serif-medium"
                     android:ellipsize="end"
                     android:maxLines="1" />
 
+                <!-- Risk badge pill -->
                 <TextView
                     android:id="@+id/tv_risk_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/bg_primary"
-                    android:textSize="10sp"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
+                    android:textColor="@color/bg_0"
+                    android:textSize="@dimen/t_caption"
+                    android:textStyle="bold"
+                    android:paddingStart="@dimen/s_2"
+                    android:paddingEnd="@dimen/s_2"
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginTop="@dimen/s_1" />
 
             </LinearLayout>
 
-            <!-- Score number on the right -->
+            <!-- Score number (right-aligned) -->
             <TextView
                 android:id="@+id/tv_score"
+                style="@style/TextAppearance.PA.Display"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28sp"
-                android:fontFamily="sans-serif-medium"
-                android:layout_marginStart="12dp" />
+                android:layout_marginStart="@dimen/s_3" />
 
         </LinearLayout>
+
+        <!-- Score bar -->
+        <ProgressBar
+            android:id="@+id/pb_score_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/stroke_score_bar"
+            android:max="100"
+            android:layout_marginTop="@dimen/s_3"
+            android:progress="80" />
 
         <!-- Expanded section (hidden by default) -->
         <LinearLayout
@@ -81,15 +94,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="@dimen/s_3">
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/divider"
-                android:layout_marginBottom="8dp" />
+                android:layout_height="@dimen/stroke_thin"
+                android:background="@color/border_subtle"
+                android:layout_marginBottom="@dimen/s_2" />
 
-            <!-- Top permissions listed here programmatically -->
+            <!-- Permissions list (added programmatically) -->
             <LinearLayout
                 android:id="@+id/container_permissions"
                 android:layout_width="match_parent"
@@ -98,12 +111,12 @@
 
             <Button
                 android:id="@+id/btn_detail"
-                style="@style/Widget.PermissionAuditor.Button.Primary"
+                style="@style/Widget.PA.Button.Secondary"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/h_button_sm"
                 android:text="@string/btn_see_details"
-                android:textSize="12sp"
-                android:layout_marginTop="10dp" />
+                android:textSize="@dimen/t_small"
+                android:layout_marginTop="@dimen/s_3" />
 
         </LinearLayout>
 

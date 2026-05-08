@@ -10,50 +10,68 @@ public class AppInfo implements Serializable {
     private final String packageName;
     private final List<PermissionInfo> permissions;
     private int riskScore; // 0–100, higher = safer
+    private boolean scoreSet = false; // true only after setRiskScore() is called
 
     // Drawable is not Serializable; passed separately when navigating to detail
     private transient Drawable icon;
 
     public AppInfo(String appName, String packageName, List<PermissionInfo> permissions) {
-        this.appName = appName;
+        this.appName     = appName;
         this.packageName = packageName;
         this.permissions = permissions;
     }
 
     // --- getters ---
 
-    public String getAppName() { return appName; }
-    public String getPackageName() { return packageName; }
+    public String getAppName()              { return appName; }
+    public String getPackageName()          { return packageName; }
     public List<PermissionInfo> getPermissions() { return permissions; }
-    public int getRiskScore() { return riskScore; }
-    public Drawable getIcon() { return icon; }
+    public int getRiskScore()               { return riskScore; }
+    public Drawable getIcon()               { return icon; }
 
     // --- setters ---
 
-    public void setRiskScore(int riskScore) { this.riskScore = riskScore; }
+    public void setRiskScore(int riskScore) {
+        this.riskScore = riskScore;
+        this.scoreSet  = true;
+    }
+
     public void setIcon(Drawable icon) { this.icon = icon; }
 
-    // Convenience: count by risk level
+    // --- risk helpers ---
+
     public int countHighRisk() {
         int count = 0;
-        for (PermissionInfo p : permissions) {
+        for (PermissionInfo p : permissions)
             if (p.getRiskLevel() == PermissionInfo.RiskLevel.HIGH) count++;
-        }
         return count;
     }
 
     public int countMediumRisk() {
         int count = 0;
-        for (PermissionInfo p : permissions) {
+        for (PermissionInfo p : permissions)
             if (p.getRiskLevel() == PermissionInfo.RiskLevel.MEDIUM) count++;
-        }
         return count;
     }
 
-    // Dominant risk level for badge display
+    /**
+     * Derives the dominant risk level from the permission list alone (HIGH > MEDIUM > LOW).
+     * Does NOT consider the computed score — use getAppCategory() for score-aware classification.
+     */
     public PermissionInfo.RiskLevel getDominantRisk() {
-        if (countHighRisk() > 0) return PermissionInfo.RiskLevel.HIGH;
+        if (countHighRisk() > 0)   return PermissionInfo.RiskLevel.HIGH;
         if (countMediumRisk() > 0) return PermissionInfo.RiskLevel.MEDIUM;
         return PermissionInfo.RiskLevel.LOW;
+    }
+
+    /**
+     * Returns the effective risk category for UI display and global-score weighting.
+     * Returns EXTREME when the computed score reaches 0; otherwise delegates to getDominantRisk().
+     * EXTREME is only reported after setRiskScore() has been called to avoid
+     * misclassifying freshly constructed (unscored) AppInfo objects.
+     */
+    public PermissionInfo.RiskLevel getAppCategory() {
+        if (scoreSet && riskScore == 0) return PermissionInfo.RiskLevel.EXTREME;
+        return getDominantRisk();
     }
 }

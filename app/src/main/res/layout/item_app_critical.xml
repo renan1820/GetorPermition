@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_app"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/s_4"
+    android:layout_marginEnd="@dimen/s_4"
+    android:layout_marginBottom="@dimen/s_3"
+    app:cardBackgroundColor="@color/bg_2"
+    app:cardCornerRadius="@dimen/r_md"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/risk_critical_bd"
+    app:strokeWidth="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Critical alert banner -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_critical_banner"
+            android:paddingStart="@dimen/s_4"
+            android:paddingEnd="@dimen/s_4"
+            android:paddingTop="@dimen/s_2"
+            android:paddingBottom="@dimen/s_2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/critical_alert_label"
+                android:textColor="@color/risk_critical_2"
+                android:textSize="@dimen/t_caption"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:letterSpacing="0.08" />
+
+            <TextView
+                android:id="@+id/tv_risk_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/risk_critical"
+                android:textColor="@color/risk_critical_2"
+                android:textSize="@dimen/t_caption"
+                android:textStyle="bold"
+                android:paddingStart="@dimen/s_2"
+                android:paddingEnd="@dimen/s_2"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:background="@drawable/bg_risk_badge_critical" />
+
+        </LinearLayout>
+
+        <!-- Card body -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/s_4">
+
+            <!-- Header row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- App icon -->
+                <ImageView
+                    android:id="@+id/iv_app_icon"
+                    android:layout_width="@dimen/h_app_icon"
+                    android:layout_height="@dimen/h_app_icon"
+                    android:contentDescription="App icon" />
+
+                <!-- App name column -->
+                <TextView
+                    android:id="@+id/tv_app_name"
+                    style="@style/TextAppearance.PA.H3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/s_3"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
+
+            </LinearLayout>
+
+            <!-- Expanded section (hidden by default) -->
+            <LinearLayout
+                android:id="@+id/layout_expanded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/s_3">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/stroke_thin"
+                    android:background="@color/risk_critical_bd"
+                    android:layout_marginBottom="@dimen/s_2" />
+
+                <!-- Permissions list (added programmatically) -->
+                <LinearLayout
+                    android:id="@+id/container_permissions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <Button
+                    android:id="@+id/btn_detail"
+                    style="@style/Widget.PA.Button.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/h_button_sm"
+                    android:text="@string/btn_see_details"
+                    android:textSize="@dimen/t_small"
+                    android:layout_marginTop="@dimen/s_3" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

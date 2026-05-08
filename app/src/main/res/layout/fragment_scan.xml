@@ -4,35 +4,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_primary">
+    android:background="@color/bg_0">
 
     <!-- App title -->
     <TextView
         android:id="@+id/tv_title"
+        style="@style/TextAppearance.PA.H1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/scan_title"
-        android:textColor="@color/text_primary"
-        android:textSize="24sp"
-        android:fontFamily="sans-serif-medium"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="48dp" />
+        android:layout_marginTop="@dimen/s_9" />
 
     <TextView
         android:id="@+id/tv_subtitle"
+        style="@style/TextAppearance.PA.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/scan_subtitle"
-        android:textColor="@color/text_muted"
-        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="@dimen/s_1" />
 
-    <!-- Radar animation view (custom RadarView defined in ScanFragment) -->
+    <!-- Radar view: cyan brand color, animated sweep -->
     <com.gitproject.getorpermition.ui.scan.RadarView
         android:id="@+id/radar_view"
         android:layout_width="220dp"
@@ -40,69 +37,68 @@
         app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="@dimen/s_8" />
 
-    <!-- Status text (IDLE: empty; SCANNING: "Analisando…") -->
+    <!-- Status label ("Analisando…" during scan) -->
     <TextView
         android:id="@+id/tv_status"
+        style="@style/TextAppearance.PA.Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="@color/accent_green"
-        android:textSize="15sp"
+        android:textColor="@color/brand_500"
         app:layout_constraintTop_toBottomOf="@id/radar_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="@dimen/s_4" />
 
-    <!-- Name of the app currently being scanned -->
+    <!-- Name of app currently being scanned -->
     <TextView
         android:id="@+id/tv_current_app"
+        style="@style/TextAppearance.PA.Small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@color/text_muted"
-        android:textSize="13sp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tv_status"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp" />
+        android:layout_marginTop="@dimen/s_1"
+        android:layout_marginStart="@dimen/s_7"
+        android:layout_marginEnd="@dimen/s_7" />
 
-    <!-- Indeterminate progress bar shown while scanning -->
+    <!-- Scan progress bar -->
     <ProgressBar
         android:id="@+id/progress_scan"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:max="100"
-        android:progressTint="@color/accent_green"
+        android:progressTint="@color/brand_500"
+        android:progressBackgroundTint="@color/bg_3"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tv_current_app"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp" />
+        android:layout_marginTop="@dimen/s_3"
+        android:layout_marginStart="@dimen/s_7"
+        android:layout_marginEnd="@dimen/s_7" />
 
-    <!-- Scan button -->
+    <!-- CTA button -->
     <Button
         android:id="@+id/btn_start_scan"
-        style="@style/Widget.PermissionAuditor.Button.Primary"
+        style="@style/Widget.PA.Button.Primary"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/h_button_lg"
         android:text="@string/btn_start_scan"
-        android:textSize="14sp"
-        android:letterSpacing="0.05"
+        android:textSize="@dimen/t_body"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp" />
+        android:layout_marginBottom="@dimen/s_9"
+        android:layout_marginStart="@dimen/s_7"
+        android:layout_marginEnd="@dimen/s_7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

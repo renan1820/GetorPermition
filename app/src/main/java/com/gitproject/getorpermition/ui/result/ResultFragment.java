@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -15,12 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gitproject.getorpermition.R;
-import com.gitproject.getorpermition.data.model.AppInfo;
 import com.gitproject.getorpermition.ui.scan.ScanViewModel;
-import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-
-import java.util.List;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ResultFragment extends Fragment {
 
@@ -31,8 +29,6 @@ public class ResultFragment extends Fragment {
     private TextView tvGlobalScore;
     private TextView tvScoreStatus;
     private TextView tvAppsCount;
-    private RecyclerView recyclerView;
-    private ChipGroup chipGroup;
 
     @Nullable
     @Override
@@ -48,20 +44,39 @@ public class ResultFragment extends Fragment {
 
         tvGlobalScore = view.findViewById(R.id.tv_global_score);
         tvScoreStatus = view.findViewById(R.id.tv_score_status);
-        tvAppsCount = view.findViewById(R.id.tv_apps_count);
-        recyclerView = view.findViewById(R.id.rv_apps);
-        chipGroup = view.findViewById(R.id.chip_group_filter);
+        tvAppsCount   = view.findViewById(R.id.tv_apps_count);
+        RecyclerView recyclerView = view.findViewById(R.id.rv_apps);
+        ChipGroup chipGroup = view.findViewById(R.id.chip_group_filter);
 
-        // Shared ViewModel from Activity: same instance as ScanFragment's
-        scanViewModel = new ViewModelProvider(requireActivity()).get(ScanViewModel.class);
+        scanViewModel  = new ViewModelProvider(requireActivity()).get(ScanViewModel.class);
         resultViewModel = new ViewModelProvider(this).get(ResultViewModel.class);
 
-        setupRecyclerView();
-        setupChips();
+        setupRecyclerView(recyclerView);
+        setupChips(chipGroup);
         observeViewModels();
+        setupBackPressDialog();
     }
 
-    private void setupRecyclerView() {
+    private void setupBackPressDialog() {
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        new MaterialAlertDialogBuilder(requireContext())
+                                .setTitle(R.string.dialog_rescan_title)
+                                .setMessage(R.string.dialog_rescan_message)
+                                .setPositiveButton(R.string.dialog_rescan_yes, (d, w) -> {
+                                    scanViewModel.reset();
+                                    Navigation.findNavController(requireView()).popBackStack();
+                                })
+                                .setNegativeButton(R.string.dialog_rescan_no, null)
+                                .show();
+                    }
+                });
+    }
+
+    private void setupRecyclerView(RecyclerView rv) {
         adapter = new AppAdapter();
         adapter.setOnDetailClickListener(app -> {
             Bundle args = new Bundle();
@@ -69,23 +84,18 @@ public class ResultFragment extends Fragment {
             Navigation.findNavController(requireView())
                     .navigate(R.id.action_result_to_detail, args);
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        recyclerView.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rv.setAdapter(adapter);
     }
 
-    private void setupChips() {
-        Chip chipAll = chipGroup.findViewById(R.id.chip_all);
-        Chip chipHigh = chipGroup.findViewById(R.id.chip_high);
-        Chip chipMedium = chipGroup.findViewById(R.id.chip_medium);
-        Chip chipSafe = chipGroup.findViewById(R.id.chip_safe);
-
+    private void setupChips(ChipGroup chipGroup) {
         chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
             if (checkedIds.isEmpty()) return;
             int id = checkedIds.get(0);
-            if (id == R.id.chip_all) resultViewModel.setFilter(ResultViewModel.Filter.ALL);
-            else if (id == R.id.chip_high) resultViewModel.setFilter(ResultViewModel.Filter.HIGH);
+            if (id == R.id.chip_all)         resultViewModel.setFilter(ResultViewModel.Filter.ALL);
+            else if (id == R.id.chip_high)   resultViewModel.setFilter(ResultViewModel.Filter.HIGH);
             else if (id == R.id.chip_medium) resultViewModel.setFilter(ResultViewModel.Filter.MEDIUM);
-            else if (id == R.id.chip_safe) resultViewModel.setFilter(ResultViewModel.Filter.LOW);
+            else if (id == R.id.chip_safe)   resultViewModel.setFilter(ResultViewModel.Filter.LOW);
         });
     }
 
@@ -101,25 +111,26 @@ public class ResultFragment extends Fragment {
             if (score != null) updateScoreCard(score);
         });
 
-        resultViewModel.getFilteredApps().observe(getViewLifecycleOwner(), apps -> {
-            adapter.setApps(apps);
-        });
+        resultViewModel.getFilteredApps().observe(getViewLifecycleOwner(), apps ->
+                adapter.setApps(apps));
     }
 
     private void updateScoreCard(int score) {
         tvGlobalScore.setText(String.valueOf(score));
+        int textColor;
+        String label;
         if (score < 40) {
-            tvScoreStatus.setText(getString(R.string.score_vulnerable));
-            tvGlobalScore.setTextColor(ContextCompat.getColor(requireContext(), R.color.score_vulnerable));
-            tvScoreStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.score_vulnerable));
+            textColor = ContextCompat.getColor(requireContext(), R.color.risk_high);
+            label = getString(R.string.score_vulnerable);
         } else if (score < 70) {
-            tvScoreStatus.setText(getString(R.string.score_moderate));
-            tvGlobalScore.setTextColor(ContextCompat.getColor(requireContext(), R.color.score_moderate));
-            tvScoreStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.score_moderate));
+            textColor = ContextCompat.getColor(requireContext(), R.color.risk_medium);
+            label = getString(R.string.score_moderate);
         } else {
-            tvScoreStatus.setText(getString(R.string.score_safe));
-            tvGlobalScore.setTextColor(ContextCompat.getColor(requireContext(), R.color.score_safe));
-            tvScoreStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.score_safe));
+            textColor = ContextCompat.getColor(requireContext(), R.color.risk_low);
+            label = getString(R.string.score_safe);
         }
+        tvGlobalScore.setTextColor(textColor);
+        tvScoreStatus.setTextColor(textColor);
+        tvScoreStatus.setText(label);
     }
 }

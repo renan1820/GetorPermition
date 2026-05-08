@@ -57,6 +57,15 @@ public class ScanViewModel extends AndroidViewModel {
         });
     }
 
+    /** Resets state to IDLE so ScanFragment shows the scan button again. */
+    public void reset() {
+        scanState.setValue(ScanState.IDLE);
+        apps.setValue(null);
+        globalScore.setValue(null);
+        currentAppName.setValue("");
+        scanProgress.setValue(0f);
+    }
+
     // --- Observables ---
     public LiveData<ScanState> getScanState() { return scanState; }
     public LiveData<String> getCurrentAppName() { return currentAppName; }

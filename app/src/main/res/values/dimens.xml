@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Permission Auditor — Dimensions
+  Gerado pelo Claude Design System
+-->
+<resources>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SPACING · escala 4pt
+         ═══════════════════════════════════════════════════════════ -->
+    <dimen name="s_1">4dp</dimen>
+    <dimen name="s_2">8dp</dimen>
+    <dimen name="s_3">12dp</dimen>
+    <dimen name="s_4">16dp</dimen>
+    <dimen name="s_5">20dp</dimen>
+    <dimen name="s_6">24dp</dimen>
+    <dimen name="s_7">32dp</dimen>
+    <dimen name="s_8">40dp</dimen>
+    <dimen name="s_9">48dp</dimen>
+    <dimen name="s_10">64dp</dimen>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         RADII
+         ═══════════════════════════════════════════════════════════ -->
+    <dimen name="r_xs">6dp</dimen>
+    <dimen name="r_sm">10dp</dimen>
+    <dimen name="r_md">14dp</dimen>
+    <dimen name="r_lg">20dp</dimen>
+    <dimen name="r_xl">28dp</dimen>
+    <dimen name="r_pill">999dp</dimen>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         COMPONENT HEIGHTS
+         ═══════════════════════════════════════════════════════════ -->
+    <dimen name="h_button_sm">36dp</dimen>
+    <dimen name="h_button_md">44dp</dimen>
+    <dimen name="h_button_lg">56dp</dimen>
+    <dimen name="h_chip">34dp</dimen>
+    <dimen name="h_app_icon">44dp</dimen>
+    <dimen name="h_app_icon_lg">72dp</dimen>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         STROKES
+         ═══════════════════════════════════════════════════════════ -->
+    <dimen name="stroke_thin">1dp</dimen>
+    <dimen name="stroke_default">1.5dp</dimen>
+    <dimen name="stroke_gauge">10dp</dimen>
+    <dimen name="stroke_score_bar">4dp</dimen>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         TYPOGRAPHY
+         ═══════════════════════════════════════════════════════════ -->
+    <dimen name="t_display">34sp</dimen>
+    <dimen name="t_h1">24sp</dimen>
+    <dimen name="t_h2">20sp</dimen>
+    <dimen name="t_h3">17sp</dimen>
+    <dimen name="t_body">15sp</dimen>
+    <dimen name="t_small">13sp</dimen>
+    <dimen name="t_caption">11sp</dimen>
+    <dimen name="t_mono">12sp</dimen>
+
+</resources>
