@@ -1,0 +1,4 @@
+<resources>
+    <!-- App is always dark — night variant matches day variant -->
+    <style name="Theme.GetorPermition" parent="Theme.PermissionAuditor" />
+</resources>

@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Permission Auditor</string>
+    <string name="scan_title">Permission Auditor</string>
+    <string name="scan_subtitle">Analise a segurança dos seus apps</string>
+    <string name="btn_start_scan">INICIAR ESCANEAMENTO</string>
+    <string name="scanning_label">Analisando…</string>
+    <string name="scan_complete">Análise concluída</string>
+    <string name="result_title">Resultado da Análise</string>
+    <string name="score_vulnerable">Vulnerável</string>
+    <string name="score_moderate">Moderado</string>
+    <string name="score_safe">Seguro</string>
+    <string name="vpn_active">VPN Ativa</string>
+    <string name="vpn_inactive">VPN Inativa</string>
+    <string name="filter_all">Todos</string>
+    <string name="filter_high">Alto Risco</string>
+    <string name="filter_medium">Médio</string>
+    <string name="filter_safe">Seguros</string>
+    <string name="btn_see_details">Ver detalhes</string>
+    <string name="btn_open_settings">Abrir Configurações</string>
+    <string name="detail_permissions_title">Permissões declaradas</string>
+    <string name="risk_high">ALTO</string>
+    <string name="risk_medium">MÉDIO</string>
+    <string name="risk_low">BAIXO</string>
+    <string name="score_label">Score de segurança</string>
+    <string name="apps_analyzed">apps analisados</string>
+    <string name="global_score_label">Score Global do Dispositivo</string>
+</resources>
